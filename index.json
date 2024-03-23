@@ -1,97 +1,97 @@
 [
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/1-introduction/",
+	"uri": "http://localhost:1313/1-introduction/",
 	"title": "1. Introduction",
 	"tags": [],
 	"description": "",
 	"content": "Amazon Cognito What is Amazon Cognito?\nAmazon Cognito is an identity platform for web and mobile apps. It’s a user directory, an authentication server, and an authorization service for OAuth 2.0 access tokens and AWS credentials. With Amazon Cognito, you can authenticate and authorize users from the built-in user directory, from your enterprise directory, and from consumer identity providers like Google and Facebook.\nThe two components that follow make up Amazon Cognito. They operate independently or in tandem, based on your access needs for your users.\nCognito User Pool (CUP): successful login returns 1 value. We use postman to change code into token. CUP\u0026rsquo;s workload is as follows: Cognito Identity Pool (CIP): During the CIP creation process, we configure the IAM role so that when we log in successfully and perform the steps below, we can only operate Read-Only on the EC2 service.\nUse tokens to convert into credentials. There are 2 small steps (refer to the syntax to understand more) i. Call API “GetID”\nInput: Account ID IdentityPoolId Logins (actually the output ID token of the previously successfully logged in CUP) - Output: “Identity ID” ii. Call API “GetCredentialsForIdentity”\nInput: “Identity ID” (output of step a) Logins (actually the output token of the previously successfully logged in CUP) Output: “Credential” Use Credential. According to the IAM role configuration, we only have the “AmazonEC2ReadOnlyAccess” permission. "
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/2-configurecognitouserpool/2.1-createacup/",
+	"uri": "http://localhost:1313/2-configurecognitouserpool/2.1-createacup/",
 	"title": "Create a CUP",
 	"tags": [],
 	"description": "",
 	"content": "Create a CUP Sign in to AWS Management Console Find Cognito\nSelect Cognito\nIn the Cognito interface select Create User Pool\nIn the User Pool interface\nStep 1: Configure sign-in experience\nCognito user pool sign-in options: Select User name and email.\nUser name requirements: Select Allow\nNext go to Next Step 2: Configure security requirements\nSelect No MFA\nFor simplicity we do not configure this option, password recovery method\nStep 3: Configure sign-up experience Add 2 attributes nickname và phone_number Then select next Step 4: Configure message delivery\nSelect Send email with Cognito\nThen select Next\nStep 5: Intergate your app\nEnter the name of the User pool: democup1\nHosted authentication pages: Select use the Cognito Hosted UI\nDomain: enter the name of domain democup1\nCheck if the domain has changed to Available status (if not, enter another domain name)\nInitial app client: Choose Public client\napp client name: Enter demo-cup-app1\nClient secret: Generate a client secret\nAllowed callback URLs: https://oauth.pstmn.io/v1/callback\nThen choose next\nCreate user pool\nSau khi tạo thành công user pool vào user pool vừa tạo\nLưu lại Cognito domain\nApp client list: Chọn vào demo-cup-app1\nCopy lại Client ID và Client Secret\n"
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/3-cognitoidentitypool/3.1-createacip/",
+	"uri": "http://localhost:1313/3-cognitoidentitypool/3.1-createacip/",
 	"title": "Create a new CIP",
 	"tags": [],
 	"description": "",
 	"content": "Create a new CIP In the Amazon Cognito interface: select Identity pool and then select Create Identity pool Bước 1: Configure identity pool trust\nWhile creating, we need to indicate which identification source to use (eg: Facebook, Google, Apple, Amazon Cognito user pool, Twitter…).\nIn this step, we choose Amazon Cognito user pool\nStep 2 Configure permissions\nSelect create a new IAM role\nIAM role name: demo-cognito-xyz\n3 Connect identity providers\nSelect User pool ID\nSelect App client Id\nMove to the next step\nStep 4 Configure properties\nEnter Identity pool name: demo-cip-1\nCreate identity pool\nAdd policy for newly created role in identity pool\nFind IAM in the search bar and select IAM\nSelect Roles\nSelect demo-cognito-xyz\nSelect add permissions\nSelect attach policies\nAdd IAM policy AmazonEC2ReadOnlyAccess\nCheck that the policy has been added successfully\n"
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/",
+	"uri": "http://localhost:1313/",
 	"title": "Start with AWS Cognito",
 	"tags": [],
 	"description": "",
 	"content": "Start with AWS Cognito Overview In this lab, we learn how to configure CUP and CIP with the aim of basically understanding Cognito\u0026rsquo;s workflow. The administrator creates the basic login page. Configures access policies for users. Users who register and log in successfully will be able to access basic services on AWS. For example, they only have EC2 Read-only rights. In this lab, we will learn how to configure CUP, CIP in order to understand the basic workflow. The administrator creates a basic login page.Configure access policies for users. Users who successfully register and log in will be able to access basic services on AWS. Content Introduction Configure Cognito User Pool Cognito Identity Pool Use Credentials Clean up Resources "
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/2-configurecognitouserpool/",
+	"uri": "http://localhost:1313/2-configurecognitouserpool/",
 	"title": "Configure CUP",
 	"tags": [],
 	"description": "",
 	"content": "Create a Cognito User Pool In this section we will create a CUP when you want to authenticate and authorize users for your application or API. A user group is a user directory that has both self-service and admin-driven user creation, management, and authentication features.\nConfigure Postman Postman is a widely used desktop application for managing and testing APIs (Application Programming Interface). It provides an easy-to-use graphical interface for building, testing, and sending HTTP requests (GET, POST, PUT, DELETE, etc.) to APIs and viewing responses from those APIs.\nContents Create a CUP Configure Postman Register and log in to the application to get the \u0026ldquo;authorization code\u0026rdquo; Dùng postman, từ code lấy token "
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/2-configurecognitouserpool/2.2-configurepostman/",
+	"uri": "http://localhost:1313/2-configurecognitouserpool/2.2-configurepostman/",
 	"title": "Configure Postman",
 	"tags": [],
 	"description": "",
 	"content": "Configure Postman We can use postman on the web or download app to install on the local computer.\nCreate the “Cognito” folder, go to the “Variables” tab to configure environment variables. Then create the “Oauth2” subfolder as well as the requests as below.\n[CUP] 1. Get CUP token with /oauth2/token [CIP] 2.1. GetID: IdentityPoolId+token -\u0026gt; IdentityID [CIP] 2.2. GetCredentialsForIdentity: IdentityID -\u0026gt; credential\nStanding in the \u0026ldquo;Cognito\u0026rdquo; folder, enter the information as shown below (values ​​taken in the step above). As we can see, variables can be nested. For example, the variable “authURL” contains “CognitoDomain” and in value\na. [CUP] 1. Get CUP token with /oauth2/token Create headers with environment variables configured in the “Cognito” folder as in the step above.\nAlso, note the “Client Authentication” section - remember to select “Send client credentials in body b. [CIP] 2.1. GetID: IdentityPoolId+token -\u0026gt; IdentityID\nFill in the header with the content below Content-Type application/x-amz-json-1.1 X-AMZ-TARGET com.amazonaws.cognito.identity.model.AWSCognitoIdentityService.GetId Enter URL: https://cognito-identity.{{region}}.amazonaws.com Body: here is the template. The following steps will fill in the following values\n{ \u0026#34;AccountId\u0026#34;: \u0026#34;string\u0026#34;, \u0026#34;IdentityPoolId\u0026#34;: \u0026#34;string\u0026#34;, \u0026#34;Logins\u0026#34;: { \u0026#34;string\u0026#34;: \u0026#34;string\u0026#34; } } Go to the JWT page to translate the ID token, which contains the ISS field. Save (do not copy the https:// )\nThe ISS field has different conventions depending on the identifier source. For example:\nFacebook: graph.facebook.com Amazon Cognito user pool: cognito-idp..amazonaws.com/\u0026lt;YOUR_USER_POOL_ID\u0026gt;, for example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789. Google: accounts.google.com Amazon: www.amazon.com Twitter: api.twitter.com Digits: www.digits.com Example:\nc. [CIP] 2.2. GetCredentialsForIdentity: IdentityID -\u0026gt; credential\nHeaders: similar to GetID but slightly different in the header X-AMZ-TARGET is \u0026ldquo;GetCredentialsForIdentity\u0026rdquo; not \u0026ldquo;GetId\u0026rdquo;\nContent-Type application/x-amz-json-1.1 X-AMZ-TARGET com.amazonaws.cognito.identity.model.AWSCognitoIdentityService.GetCredentialsForIdentity Example:\nBody: here is the template. The following steps will fill in the following values\n{ \u0026#34;AccountId\u0026#34;: \u0026#34;string\u0026#34;, \u0026#34;IdentityPoolId\u0026#34;: \u0026#34;string\u0026#34;, \u0026#34;Logins\u0026#34;: { \u0026#34;string\u0026#34;: \u0026#34;string\u0026#34; } } Example:\n"
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/3-cognitoidentitypool/3.2-tokentradecredentials/",
+	"uri": "http://localhost:1313/3-cognitoidentitypool/3.2-tokentradecredentials/",
 	"title": "From token trade credential",
 	"tags": [],
 	"description": "",
 	"content": "a.Call API GetID to get IdentityID Review the theory to understand. In this step, we fill in\nAccount ID: ID of the account you are doing Lab\nIdentityPoolId (how to get it can be seen in the image below)\nLogins (actually the output (ID token) of the previously successfully logged in CUP)\nKey: iss word translation value Value: ID token Remember to get the token ID from the 3 types of tokens.\nAfter filling in body postman After filling in the correct information, click Send. The result returns IdentityID. Copy this value into some document program.\nb. Call API \u0026ldquo;GetCredentialsForIdentity\u0026rdquo; to get temporary credential Input: “IdentityID”. Output: Temporary Credentials include AccessKeyId, Expiration, SecretKey, SessionToken You should check to see if the header and body are filled in correctly\nThen pressing send will return the results:\n"
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/3-cognitoidentitypool/",
+	"uri": "http://localhost:1313/3-cognitoidentitypool/",
 	"title": "Cognito Identity Pool",
 	"tags": [],
 	"description": "",
 	"content": "Cognito Identity Pool Set up an Amazon Cognito identity pool when you want to authorize authenticated or anonymous users to access your AWS resources. Identity pools issue AWS credentials to your application to serve resources to users. You can authenticate users using a trusted identity provider, such as a group user or a SAML 2.0 service. It can also optionally issue credentials to guest users. Identity groups use both role-based and attribute-based access control to manage user authorization to access AWS resources.\nNội dung Create a CIP Token trade Credential "
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/2-configurecognitouserpool/2.3-authorizationcode/",
+	"uri": "http://localhost:1313/2-configurecognitouserpool/2.3-authorizationcode/",
 	"title": "Register and log in to the application",
 	"tags": [],
 	"description": "",
 	"content": "Register and log in to the application to get the \u0026ldquo;authorization code\u0026rdquo; Amazon Cognito \u0026gt; User pools \u0026gt; demo-cup-1 \u0026gt; App client: demo-cup-app1\nSelect View Hosted UI Click Sign Up to register a user account Fill in personal information Enter the code from gmail filled in. Check if your account has been registered successfully Amazon Cognito \u0026gt; User pools \u0026gt; democup1 "
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/4-usecredentials/",
+	"uri": "http://localhost:1313/4-usecredentials/",
 	"title": "Use credentials",
 	"tags": [],
 	"description": "",
 	"content": "Check access. On any machine, add environment variables as below. Values ​​taken in the step above.\nexport AWS_ACCESS_KEY_ID=\u0026lt;Access key\u0026gt; export AWS_SECRET_ACCESS_KEY=\u0026lt;Secret key\u0026gt; export AWS_DEFAULT_REGION=ap-southeast-1 export AWS_SESSION_TOKEN=\u0026lt;Session token\u0026gt; Open Cloudshell To open the environment file, execute the command\nvi .bashrc //Some commands you can refer to when editing environment files Press i to edit the file to the left of the character Press x to delete the character Press esc to exit editing :wq! save and return :q! return Copy the file and edit the above values ​​and paste it into the environment file Execute the environment file source .bashrc Check the identification again. aws sts get-caller-identity aws s3 ls aws ec2 describe-instances The returned results show that we have assumed the role “demo-cognito-xyz”. ReadOnly EC2 permission only. "
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/2-configurecognitouserpool/2.4-usingpostman/",
+	"uri": "http://localhost:1313/2-configurecognitouserpool/2.4-usingpostman/",
 	"title": "Using postman, from the code get the token",
 	"tags": [],
 	"description": "",
 	"content": "Using postman, from the code get the token Switch to Postman: Check the information then click Get New Access Token Then log in with the password account registered above The next step will display the get new access token window Click “Use Token” to save and use the token. Then if you want to review it, go to \u0026ldquo;Manage Token\u0026rdquo; as shown below.\nThere are 3 types of tokens. See more here\nid_token: contains the authenticated user\u0026rsquo;s identifier, such as name, email, phone number Access token: authenticated user, list of user groups, list of scope scopes refresh_token: used to get new ID and access token To translate the token, go to “jwt.io” page, copy/paste the value of the token into the box on the left. The returned results will be displayed as the cells on the right\nFor example, access tokens For example id token "
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/5-cleanresource/",
+	"uri": "http://localhost:1313/5-cleanresource/",
 	"title": "Clean Up Resource",
 	"tags": [],
 	"description": "",
 	"content": " Delete CUP Delete CIP Delete Roles Congratulations on completing the LAB "
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/categories/",
+	"uri": "http://localhost:1313/categories/",
 	"title": "Categories",
 	"tags": [],
 	"description": "",
 	"content": ""
 },
 {
-	"uri": "https://ynguyen2k2.github.io/awscognitows/tags/",
+	"uri": "http://localhost:1313/tags/",
 	"title": "Tags",
 	"tags": [],
 	"description": "",
