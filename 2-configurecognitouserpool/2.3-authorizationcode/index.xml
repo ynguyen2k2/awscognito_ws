@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Register and log in to the application on Start with AWS Congnito.</title>
-    <link>http://localhost:1313/awscognito_ws/2-configurecognitouserpool/2.3-authorizationcode/</link>
+    <link>https://ynguyen2k2.github.io/awscognito_ws/2-configurecognitouserpool/2.3-authorizationcode/</link>
     <description>Recent content in Register and log in to the application on Start with AWS Congnito.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <atom:link href="http://localhost:1313/awscognito_ws/2-configurecognitouserpool/2.3-authorizationcode/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://ynguyen2k2.github.io/awscognito_ws/2-configurecognitouserpool/2.3-authorizationcode/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
