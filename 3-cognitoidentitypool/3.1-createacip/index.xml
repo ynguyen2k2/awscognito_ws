@@ -2,10 +2,10 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Create a new CIP on Start with AWS Congnito.</title>
-    <link>http://localhost:1313/3-cognitoidentitypool/3.1-createacip/</link>
+    <link>http://localhost:1313/awscognito_ws/3-cognitoidentitypool/3.1-createacip/</link>
     <description>Recent content in Create a new CIP on Start with AWS Congnito.</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <atom:link href="http://localhost:1313/3-cognitoidentitypool/3.1-createacip/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/awscognito_ws/3-cognitoidentitypool/3.1-createacip/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

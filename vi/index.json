@@ -1,97 +1,97 @@
 [
 {
-	"uri": "http://localhost:1313/vi/1-introduction/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/1-introduction/",
 	"title": "1. Giới thiệu",
 	"tags": [],
 	"description": "",
 	"content": "Amazon Cognito Amazon Cognito là gì?\nAmazon Cognito là một nền tảng nhận dạng dành cho ứng dụng web và thiết bị di động. Đó là thư mục người dùng, máy chủ xác thực và dịch vụ ủy quyền cho mã thông báo truy cập OAuth 2.0 và thông tin xác thực AWS. Với Amazon Cognito, bạn có thể xác thực và ủy quyền cho người dùng từ thư mục người dùng tích hợp, từ thư mục doanh nghiệp của bạn và từ các nhà cung cấp danh tính người tiêu dùng như Google và Facebook.\nHai thành phần tiếp theo tạo nên Amazon Cognito. Chúng hoạt động độc lập hoặc song song, dựa trên nhu cầu truy cập của bạn đối với người dùng.\nCognito User Pool (CUP): đăng nhập thành công trả về 1 giá trị Chúng ta dùng postman để đổi code thành token. Workload của CUP như sau: Cognito Identity Pool (CIP): Trong quá trình tạo CIP, chúng ta cấu hình IAM role để khi đăng nhập thành công và thực hiện các bước bên dưới, chúng ta chỉ có thể thao tác Read-Only trên dịch vụ EC2.\nSử dụng token để hoán đổi thành credentials. Trong đó có 2 bước nhỏ (tham khảo syntax để hiểu thêm)\ni. Gọi API “GetID”\nInput: Account ID IdentityPoolId Logins (thật ra là output ID token của CUP đăng nhập thành công trước đó) Output: “Identity ID” ii. Gọi API “GetCredentialsForIdentity”\nInput: “Identity ID” (output của bước a) Logins (thật ra là output token của CUP đăng nhập thành công trước đó) Output: “Credential” Sử dụng Credential. Theo như cấu hình IAM role, chúng ta chỉ có quyền “AmazonEC2ReadOnlyAccess” "
 },
 {
-	"uri": "http://localhost:1313/vi/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/",
 	"title": "Bắt đầu với AWS Cognito",
 	"tags": [],
 	"description": "",
 	"content": "Bắt đầu với AWS Cognito Tổng quan Trong bài lab này, chúng ta tìm hiểu cách cấu hình CUP, CIP với mục đích là hiểu cơ bản workflow của Cognito. Người quản trị tạo ra trang đăng nhập cơ bản. Cấu hình chính sách truy cập cho người dùng. Người dùng đăng ký, đăng nhập thành công thì sẽ truy xuất được vào dịch vụ cơ bản trên AWS. Vd: chỉ có quyền EC2 Read-only. In this lab, we will learn how to configure CUP, CIP in order to understand the basic workflow. The administrator creates a basic login page. Configure access policies for users. Users who successfully register and log in will be able to access basic services on AWS. Nội dung Giới thiệu Cấu hình Cognito User Pool Cognito Identity Pool Sử dụng Credentials Dọn dẹp tài nguyên "
 },
 {
-	"uri": "http://localhost:1313/vi/3-cognitoidentitypool/3.1-createacip/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/3-cognitoidentitypool/3.1-createacip/",
 	"title": "Tạo mới một CIP",
 	"tags": [],
 	"description": "",
 	"content": "Tạo mới một CIP Trong giao diện của Amazon Cognito: chọn Identity pool rồi chọn Create Identity pool Bước 1: Configure identity pool trust\nTrong lúc tạo chúng ta cần chỉ ra sử dụng nguồn định danh nào (vd: Facebook, google, Apple, Amazon Cognito user pool, Twitter…).\nỞ bước này, chúng ta chọn Amazon Cognito user pool\nBước 2 Configure permissions\nChọn create a new IAM role\nIAM role name: demo-cognito-xyz\nBước 3 Connect identity providers\nChọn User pool ID\nChọn App client Id\nChuyển sang bước tiếp theo\nBước 4 Configure properties\nNhập tên Identity pool name: demo-cip-1\nTạo identity pool\nThêm policy cho role mới tạo trong identity pool\nTìm IAM trong thanh tìm kiếm và chọn IAM\nChọn vào Roles\nChọn demo-cognito-xyz\nChọn add permissions\nChọn attach policies\nThêm IAM policy AmazonEC2ReadOnlyAccess\nKiểm tra đã thêm policy thành công\n"
 },
 {
-	"uri": "http://localhost:1313/vi/2-configurecognitouserpool/2.1-createacup/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/2-configurecognitouserpool/2.1-createacup/",
 	"title": "Tạo mới một CUP",
 	"tags": [],
 	"description": "",
 	"content": "Tạo mới một CUP Đăng nhập vào AWS Management Console Tìm Cognito\nChọn Cognito\nTrong giao diện Cognito chọn Create User Pool\nTrong giao diện User Pool\nBước 1 : Configure sign-in experience\nCognito user pool sign-in options: Chọn User name và email.\nUser name requirements: Chọn Allow\nTiếp theo đến Next Bước 2: Configure security requirements\nChọn No MFA\nĐể đơn giản chúng ta không cấu hình tuỳ chọn này, phương thức khôi phục mật khẩu\nBước 3: Configure sign-up experience Thêm 2 attributes nickname và phone_number Rồi chọn next Bước 4: Configure message delivery\nChọn Send email with Congnito\nRồi chọn Next\nBước 5: Intergate your app\nNhập tên của User pool: democup1\nHosted authentication pages: Chọn use the Cognito Hosted UI\nDomain: nhập tên của domain democup1\nKiểm tra thử domain đã chuyển sang trạng thái Available (nếu không có thì nhập domain name khác)\nInitial app client: Chọn Public client\napp client name: điền demo-cup-app1\nClient secret: Generate a client secret\nAllowed callback URLs: https://oauth.pstmn.io/v1/callback\nRồi chọn Next\nCreate user pool\nSau khi tạo thành công user pool vào user pool vừa tạo\nLưu lại Cognito domain\nApp client list: Chọn vào demo-cup-app1\nCopy lại Client ID và Client Secret\n"
 },
 {
-	"uri": "http://localhost:1313/vi/2-configurecognitouserpool/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/2-configurecognitouserpool/",
 	"title": "Cấu hình CUP",
 	"tags": [],
 	"description": "",
 	"content": "Tạo một Cognito User Pool Trong phần này ta sẽ tạo một CUP khi bạn muốn xác thực và ủy quyền cho người dùng đối với ứng dụng hoặc API của mình. Nhóm người dùng là một thư mục người dùng có cả tính năng tạo, quản lý và xác thực người dùng tự phục vụ và do quản trị viên điều khiển.\nCấu hình Postman Postman là một ứng dụng máy tính được sử dụng rộng rãi trong quản lý và thử nghiệm các API (Application Programming Interface). Nó cung cấp một giao diện đồ họa dễ sử dụng để xây dựng, thử nghiệm và gửi các yêu cầu HTTP (GET, POST, PUT, DELETE, vv.) đến các API và xem phản hồi từ các API đó.\nNội dung Create a CUP Configure Postman Register and log in to the application to get the \u0026ldquo;authorization code\u0026rdquo; Dùng postman, từ code lấy token "
 },
 {
-	"uri": "http://localhost:1313/vi/2-configurecognitouserpool/2.2-configurepostman/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/2-configurecognitouserpool/2.2-configurepostman/",
 	"title": "Cấu hình Postman",
 	"tags": [],
 	"description": "",
 	"content": "Cấu hình Postman Chúng ta có thể dùng postman trên web hoặc download app về cài trên máy local.\nTạo thư mục “Cognito”, vào tab “Variables” để cấu hình biến môi trường. Sau đó tạo thư mục con “Oauth2” cũng như các request như bên dưới.\n[CUP] 1. Get CUP token with /oauth2/token [CIP] 2.1. GetID: IdentityPoolId+token -\u0026gt; IdentityID [CIP] 2.2. GetCredentialsForIdentity: IdentityID -\u0026gt; credential\nĐứng ở thư mục “Cognito”, nhập các thông tin như hình dưới (giá trị lấy ở bước trên). Như ta thấy, các biến có thể lồng vào nhau. Ví dụ: biến “authURL” chứa “CognitoDomain” và trong giá trị\na. [CUP] 1. Get CUP token with /oauth2/token Tạo sẵn các header với biến môi trường đã cấu hình thư mục “Cognito” như bước trên.\nNgoài ra, lưu ý phần “Client Authentication” - nhớ chọn “Send client credentials in body b. [CIP] 2.1. GetID: IdentityPoolId+token -\u0026gt; IdentityID\nĐiền vào header nội dung dưới Content-Type application/x-amz-json-1.1 X-AMZ-TARGET com.amazonaws.cognito.identity.model.AWSCognitoIdentityService.GetId Nhập URL: https://cognito-identity.{{region}}.amazonaws.com Body: ở đây là template. Các bước sau sẽ điền giá trị sau\n{ \u0026#34;AccountId\u0026#34;: \u0026#34;string\u0026#34;, \u0026#34;IdentityPoolId\u0026#34;: \u0026#34;string\u0026#34;, \u0026#34;Logins\u0026#34;: { \u0026#34;string\u0026#34;: \u0026#34;string\u0026#34; } } Vào trang JWT để dịch ID token, trong đó có chứa trường ISS. Lưu lại (không copy phần https://)\nTrường ISS tuỳ vào nguồn định danh mà có quy ước khác nhau. Vd:\nFacebook: graph.facebook.com Amazon Cognito user pool: cognito-idp..amazonaws.com/\u0026lt;YOUR_USER_POOL_ID\u0026gt;, for example, cognito-idp.us-east-1.amazonaws.com/us-east-1_123456789. Google: accounts.google.com Amazon: www.amazon.com Twitter: api.twitter.com Digits: www.digits.com Ví dụ\nc. [CIP] 2.2. GetCredentialsForIdentity: IdentityID -\u0026gt; credential\nHeaders: tương tự như GetID như khác chút ở header X-AMZ-TARGET là \u0026ldquo;GetCredentialsForIdentity\u0026rdquo; chứ không phải \u0026ldquo;GetId\u0026rdquo;\nContent-Type application/x-amz-json-1.1 X-AMZ-TARGET com.amazonaws.cognito.identity.model.AWSCognitoIdentityService.GetCredentialsForIdentity Ví dụ:\nBody: ở đây là template. Các bước sau sẽ điền giá trị sau\n{ \u0026#34;AccountId\u0026#34;: \u0026#34;string\u0026#34;, \u0026#34;IdentityPoolId\u0026#34;: \u0026#34;string\u0026#34;, \u0026#34;Logins\u0026#34;: { \u0026#34;string\u0026#34;: \u0026#34;string\u0026#34; } } Ví dụ:\n"
 },
 {
-	"uri": "http://localhost:1313/vi/3-cognitoidentitypool/3.2-tokentradecredentials/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/3-cognitoidentitypool/3.2-tokentradecredentials/",
 	"title": "Từ token trade credential",
 	"tags": [],
 	"description": "",
 	"content": "a. Gọi API GetID để lấy IdentityID Xem lại phần lý thuyết để hiểu. Ở bước này, chung ta điền\nAccount ID: ID của tài khoản bạn đang làm Lab\nIdentityPoolId (cách lấy có thể tham khảo ở hình ở dưới)\nLogins (thật ra là output (ID token) của CUP đăng nhập thành công trước đó)\nKey: giá trị “iss” dịch từ Value: ID token Các bạn nhớ lấy ID token trong 3 loại token.\nSau khi điền vào body postman Sau khi điền đúng các thông tin, nhấn Send. Kết quả trả về IdentityID. Copy giá trị này vào trình văn bản nào đó.\nb. Gọi API \u0026ldquo;GetCredentialsForIdentity\u0026rdquo; để lấy credential tạm Input: “IdentityID”. Output: Credentials tạm bao gồm AccessKeyId, Expiration, SecretKey, SessionToken Các bạn nên check xem header và body đã điền đúng chưa\nRồi nhấn send sẽ trả về kết quả:\n"
 },
 {
-	"uri": "http://localhost:1313/vi/3-cognitoidentitypool/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/3-cognitoidentitypool/",
 	"title": "Cognito Identity Pool",
 	"tags": [],
 	"description": "",
 	"content": "Cognito Identity Pool Thiết lập nhóm nhận dạng Amazon Cognito khi bạn muốn ủy quyền cho người dùng được xác thực hoặc ẩn danh truy cập vào tài nguyên AWS của bạn. Nhóm nhận dạng cấp thông tin xác thực AWS cho ứng dụng của bạn để phân phát tài nguyên cho người dùng. Bạn có thể xác thực người dùng bằng nhà cung cấp danh tính đáng tin cậy, chẳng hạn như người dùng nhóm hoặc dịch vụ SAML 2.0. Nó cũng có thể tùy ý cấp thông tin xác thực cho người dùng khách. Nhóm danh tính sử dụng cả kiểm soát truy cập dựa trên vai trò và dựa trên thuộc tính để quản lý ủy quyền truy cập tài nguyên AWS của người dùng.\nNội dung Tạo mới một CIP Toke chuyển sang Credenials "
 },
 {
-	"uri": "http://localhost:1313/vi/2-configurecognitouserpool/2.3-authorizationcode/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/2-configurecognitouserpool/2.3-authorizationcode/",
 	"title": "Đăng ký, đăng nhập ứng dụng ",
 	"tags": [],
 	"description": "",
 	"content": "Đăng ký, đăng nhập ứng dụng để lấy “authorization code” Amazon Cognito \u0026gt; User pools \u0026gt; demo-cup-1 \u0026gt; App client: demo-cup-app1\nChọn View Hosted UI Nhấn Sign Up để đăng kí tài khoản user Điền thông tin cá nhân Nhập mã từ gmail đã điền. Kiểm tra tài khoản đã đăng kí thành công Amazon Cognito \u0026gt; User pools \u0026gt; democup1 "
 },
 {
-	"uri": "http://localhost:1313/vi/2-configurecognitouserpool/2.4-usingpostman/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/2-configurecognitouserpool/2.4-usingpostman/",
 	"title": "Dùng postman, từ code lấy token",
 	"tags": [],
 	"description": "",
 	"content": "Dùng postman, từ code lấy token Chuyển qua Postman: Kiểm tra thông tin sau đó nhấp Get New Access Token Sau đó đăng nhập tài khoản mật khẩu đã đăng kí ở trên Bước tiếp theo sẽ hiện lên cửa sổ get new access token Nhấn “Use Token” để lưu và sử dụng token. Sau đó muốn xem lại thì vào “Manage Token” như hình dưới.\nCó 3 loại token. Tham khảo thêm ở đây\nid_token: chứa định danh của authenticated user, như là tên, email, số điện thoại Access token: authenticated user, danh sách các nhóm của người dùng, danh sách các scope scopes refresh_token: dùng để lấy ID và access token mới Để dịch token, vào trang “jwt.io”, copy/paste giá trị của token vào ô bên trái. Kết quả trả về sẽ hiện thị như các ô bên phải\nVí dụ access token Ví dụ “id token” "
 },
 {
-	"uri": "http://localhost:1313/vi/4-usecredentials/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/4-usecredentials/",
 	"title": "Sử dụng credentials",
 	"tags": [],
 	"description": "",
 	"content": "Kiểm tra truy xuất. Trên 1 máy bất kỳ, thêm biến môi trường như bên dưới. Các giá trị lấy ở bước trên.\nexport AWS_ACCESS_KEY_ID=\u0026lt;Access key\u0026gt; export AWS_SECRET_ACCESS_KEY=\u0026lt;Secret key\u0026gt; export AWS_DEFAULT_REGION=ap-southeast-1 export AWS_SESSION_TOKEN=\u0026lt;Session token\u0026gt; Mở Cloudshell Để mở file môi trường ta thực hiên lệnh\nvi .bashrc //Một vài lệnh bạn có thể tham khảo khi sửa file môi trường Nhấn i để sửa file bên trái kí tự Nhấn x để xóa kí tự Nhấn esc để thoát chỉnh sửa :wq! lưu và trở về :q! trở về Copy file và sửa các giá trị trên dán vào file môi trường Thực thi file môi trường source .bashrc Kiểm tra lại định danh. aws sts get-caller-identity aws s3 ls aws ec2 describe-instances Kết quả trả về cho thấy chúng ta đã assume role “demo-cognito-xyz”. Chỉ có quyền ReadOnly EC2. "
 },
 {
-	"uri": "http://localhost:1313/vi/5-cleanresource/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/5-cleanresource/",
 	"title": "Dọn dẹp tài nguyên",
 	"tags": [],
 	"description": "",
 	"content": " Xóa CUP Xóa CIP Xóa Roles Chúc mừng bạn đã hoàn thành bài LAB "
 },
 {
-	"uri": "http://localhost:1313/vi/categories/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/categories/",
 	"title": "Categories",
 	"tags": [],
 	"description": "",
 	"content": ""
 },
 {
-	"uri": "http://localhost:1313/vi/tags/",
+	"uri": "http://localhost:1313/awscognito_ws/vi/tags/",
 	"title": "Tags",
 	"tags": [],
 	"description": "",
